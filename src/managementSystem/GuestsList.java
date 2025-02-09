@@ -1,6 +1,7 @@
 package managementSystem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class GuestsList {
 
@@ -34,15 +35,16 @@ class GuestsList {
 		return false;
 	}
 
-	/**
-	 * Search for a guest based on first and last name. Return the first result.
-	 *
-	 * @param firstName first name of the guest
-	 * @param lastName  last name of the guest
-	 * @return the guest if found, null if not
-	 */
 	public Guest search(String firstName, String lastName) {
-		// TO DO:
+		if (firstName == null || lastName == null) {
+			return null;
+		}
+		for (Guest guest : guestsList) {
+			if (firstName.equals(guest.getFirstName()) && lastName.equals(guest.getLastName())) {
+				return guest;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -53,7 +55,24 @@ class GuestsList {
 	 * @return the guest if found, null if not
 	 */
 	public Guest search(int opt, String match) {
-		// TO DO:
+		if (match == null) {
+			return null;
+		}
+
+		if (opt == 2) {
+			for (Guest guest : guestsList) {
+				if (guest.getEmail() != null && guest.getEmail().equalsIgnoreCase(match)) {
+					return guest;
+				}
+			}
+		} else if (opt == 3) {
+			for (Guest guest : guestsList) {
+				if (guest.getPhoneNumber() != null && guest.getPhoneNumber().equalsIgnoreCase(match)) {
+					return guest;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -131,7 +150,20 @@ class GuestsList {
 	 * @return a list of people matching the criteria
 	 */
 	public List<Guest> partialSearch(String match) {
-		// TO DO:
+		List<Guest> foundGuests = new ArrayList<Guest>();
+
+		if (match == null) {
+			return foundGuests;
+		}
+		String lowerMatch = match.toLowerCase();
+		for (Guest guest : guestsList) {
+			if (guest.getFirstName().toLowerCase().contains(lowerMatch)
+					|| guest.getLastName().toLowerCase().contains(lowerMatch)
+					|| guest.getEmail().toLowerCase().contains(lowerMatch) || guest.getPhoneNumber().contains(match)) {
+				foundGuests.add(guest);
+			}
+		}
+		return foundGuests;
 	}
 
 	@Override
