@@ -17,12 +17,15 @@ class GuestsList {
 		if (isOnTheListAlready(g)) {
 			return -1;
 		}
-		if (guestsList.size() < guestsCapacity) {
-			guestsList.add(g);
+		guestsList.add(g);
+		int slotNumber = guestsList.indexOf(g);
+		if (slotNumber < guestsCapacity) {
+			System.out.println(g.fullName() + " Felicitari! Locul tau la eveniment este confirmat. Te asteptam!");
 			return 0;
 		} else {
-			guestsList.add(g);
-			return guestsList.size() - guestsCapacity;
+			System.out.println(g.fullName()
+					+ " Te-ai inscris cu succes in lista de asteptare si ai primit numarul de ordine " + slotNumber + " Te vom notifica daca un loc devine disponibil");
+			return slotNumber;
 		}
 	}
 
@@ -47,13 +50,6 @@ class GuestsList {
 		return null;
 	}
 
-	/**
-	 * Search for a guest based on email or phone number. Return the first result.
-	 *
-	 * @param opt   option to use for searching: 2 for email, 3 for phone number
-	 * @param match what is searched for
-	 * @return the guest if found, null if not
-	 */
 	public Guest search(int opt, String match) {
 		if (match == null) {
 			return null;
@@ -75,80 +71,61 @@ class GuestsList {
 		return null;
 	}
 
-	/**
-	 * Remove a guest based on first and last name. Remove the first result.
-	 *
-	 * @param firstName first name of the guest
-	 * @param lastName  last name of the guest
-	 * @return true if removed, false if not
-	 */
 	public boolean remove(String firstName, String lastName) {
-		// TO DO:
+		Guest guestToDelete = search(firstName, lastName);
+		if (guestToDelete == null) {
+			return false;
+		}
+		return guestsList.remove(guestToDelete);
 	}
 
-	/**
-	 * Remove a guest based on email or phone number. Remove the first result.
-	 *
-	 * @param opt   option to use for searching: 2 for email, 3 for phone number
-	 * @param match the match we are searching for
-	 * @return true if removed, false if not
-	 */
 	public boolean remove(int opt, String match) {
-		// TO DO:
+		Guest guestToDelete = search(opt, match);
+		if (guestToDelete == null) {
+			return false;
+		}
+
+		return guestsList.remove(guestToDelete);
 	}
 
-	// Show the list of guests.
 	public void showGuestsList() {
-		// TO DO:
+		if (guestsList.isEmpty()) {
+			System.out.println("Guest List is empty.");
+		}
+		int guestsIndex = Math.min(guestsCapacity, guestsList.size());
+
+		for (int i = 0; i < guestsIndex; i++) {
+			System.out.println(guestsList.get(i));
+		}
 	}
 
 	// Show the people on the waiting list.
 	public void showWaitingList() {
-		// TO DO:
+		if (guestsList.size() <= guestsCapacity) {
+			System.out.println("Waiting List is empty.");
+			return;
+		}
+		for (int i = guestsCapacity; i < guestsList.size(); i++) {
+			System.out.println(guestsList.get(i));
+		}
 	}
 
-	/**
-	 * Show how many free spots are left.
-	 *
-	 * @return the number of spots left for guests
-	 */
 	public int numberOfAvailableSpots() {
-		// TO DO:
+		return Math.max(0, guestsCapacity - guestsList.size());
 	}
 
-	/**
-	 * Show how many guests there are.
-	 *
-	 * @return the number of guests
-	 */
 	public int numberOfGuests() {
-		// TO DO:
+		return Math.min(guestsCapacity, guestsList.size());
 	}
 
-	/**
-	 * Show how many people are on the waiting list.
-	 *
-	 * @return number of people on the waiting list
-	 */
 	public int numberOfPeopleWaiting() {
-		// TO DO:
+		return Math.max(0, guestsList.size() - guestsCapacity);
 	}
 
-	/**
-	 * Show how many people there are in total, including guests.
-	 *
-	 * @return how many people there are in total
-	 */
 	public int numberOfPeopleTotal() {
-		// TO DO:
+		return guestsList.size();
 	}
 
-	/**
-	 * Find all people based on a partial value search.
-	 *
-	 * @param match the match we are looking for
-	 * @return a list of people matching the criteria
-	 */
 	public List<Guest> partialSearch(String match) {
 		List<Guest> foundGuests = new ArrayList<Guest>();
 
@@ -168,6 +145,6 @@ class GuestsList {
 
 	@Override
 	public String toString() {
-		// TO DO:
+		return super.toString();
 	}
 }

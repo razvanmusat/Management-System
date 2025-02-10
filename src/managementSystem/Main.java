@@ -1,5 +1,7 @@
 package managementSystem;
 
+import java.util.Scanner;
+
 public class Main {
 	private static void showCommands() {
 		System.out.println("help         - Afiseaza aceasta lista de comenzi");
@@ -21,7 +23,13 @@ public class Main {
 	}
 
 	private static void addNewGuest(Scanner sc, GuestsList list) {
-		// TO DO:
+		String lastName = sc.nextLine();
+		String firstName = sc.nextLine();
+		String email = sc.nextLine();
+		String phoneNumber = sc.nextLine();
+
+		Guest guest = new Guest(lastName, firstName, email, phoneNumber);
+		list.add(guest);
 	}
 
 	private static void checkGuest(Scanner sc, GuestsList list) {

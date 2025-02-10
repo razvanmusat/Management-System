@@ -9,10 +9,18 @@ class Guest {
 	private String email;
 	private String phoneNumber;
 
-	public Guest(String lastName, String firstName, String email, String phoneNumber) {
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
+	public static String formatName(String word) {
+		if (word == null || word.isEmpty()) {
+			return word;
+		}
+	//	word = word.trim();
+		return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+	}
+
+	public Guest(String firstName, String lastName, String email, String phoneNumber) {
+		this.lastName = formatName(lastName);
+		this.firstName = formatName(firstName);
+		this.email = email.toLowerCase();
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -73,6 +81,6 @@ class Guest {
 	}
 
 	public String fullName() {
-		return firstName + " " + lastName;
+		return "[" + firstName + " " + lastName + "]";
 	}
 }
