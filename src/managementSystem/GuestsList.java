@@ -18,14 +18,11 @@ class GuestsList {
 			return -1;
 		}
 		guestsList.add(g);
-		int slotNumber = guestsList.indexOf(g);
-		if (slotNumber < guestsCapacity) {
-			System.out.println(g.fullName() + " Felicitari! Locul tau la eveniment este confirmat. Te asteptam!");
+
+		if (guestsList.indexOf(g) < guestsCapacity) {
 			return 0;
 		} else {
-			System.out.println(g.fullName()
-					+ " Te-ai inscris cu succes in lista de asteptare si ai primit numarul de ordine " + slotNumber + " Te vom notifica daca un loc devine disponibil");
-			return slotNumber;
+			return guestsList.indexOf(g) - guestsCapacity + 1;
 		}
 	}
 
@@ -38,10 +35,11 @@ class GuestsList {
 		return false;
 	}
 
-	public Guest search(String firstName, String lastName) {
+	public Guest search(String lastName, String firstName) {
 		if (firstName == null || lastName == null) {
 			return null;
 		}
+
 		for (Guest guest : guestsList) {
 			if (firstName.equals(guest.getFirstName()) && lastName.equals(guest.getLastName())) {
 				return guest;
@@ -63,7 +61,7 @@ class GuestsList {
 			}
 		} else if (opt == 3) {
 			for (Guest guest : guestsList) {
-				if (guest.getPhoneNumber() != null && guest.getPhoneNumber().equalsIgnoreCase(match)) {
+				if (guest.getPhoneNumber() != null && guest.getPhoneNumber().equals(match)) {
 					return guest;
 				}
 			}

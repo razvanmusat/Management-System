@@ -23,17 +23,76 @@ public class Main {
 	}
 
 	private static void addNewGuest(Scanner sc, GuestsList list) {
+		System.out.println("Insert last name: ");
 		String lastName = sc.nextLine();
+		System.out.println("Insert first name: ");
 		String firstName = sc.nextLine();
+		System.out.println("Insert email: ");
 		String email = sc.nextLine();
+		System.out.println("Insert phone number: ");
 		String phoneNumber = sc.nextLine();
 
 		Guest guest = new Guest(lastName, firstName, email, phoneNumber);
-		list.add(guest);
+		int addResult = list.add(guest);
+
+		if (addResult == -1) {
+			System.out.println(guest.fullName() + " is already on the list!");
+		} else if (addResult == 0) {
+			System.out.println(guest.fullName() + " Felicitari! Locul tau la eveniment este confirmat. Te asteptam!");
+		} else {
+			System.out.println(
+					guest.fullName() + " Te-ai inscris cu succes in lista de asteptare si ai primit numarul de ordine "
+							+ addResult + " Te vom notifica daca un loc devine disponibil");
+		}
 	}
 
 	private static void checkGuest(Scanner sc, GuestsList list) {
-		// TO DO:
+		class Messages {
+			private static void messages() {
+				System.out.println("Insert option 1 to search by name");
+				System.out.println("Insert option 2 to search by mail");
+				System.out.println("Insert option 3 to search by phone number\nYour choice is...");
+			}
+		}
+		Messages.messages();
+		int option = sc.nextInt();
+		sc.nextLine();
+
+		while (option != 1 && option != 2 && option != 3) {
+			System.out.println("Invalid option. Try again!");
+			Messages.messages();
+			option = sc.nextInt();
+			sc.nextLine();
+		}
+
+		Guest guest = null;
+
+		switch (option) {
+		case 1:
+			System.out.println("Insert last name: ");
+			String lastName = sc.nextLine();
+			System.out.println("Insert first name: ");
+			String firstName = sc.nextLine();
+			guest = list.search(Guest.formatName(lastName), Guest.formatName(firstName));
+			break;
+		case 2:
+			System.out.println("Insert email: ");
+			String email = sc.nextLine();
+			guest = list.search(option, email.toLowerCase().trim());
+			break;
+		case 3:
+			System.out.println("Insert phone number: ");
+			String phoneNumber = sc.nextLine();
+			guest = list.search(option, phoneNumber.trim());
+			break;
+		default:
+			break;
+		}
+		if (guest != null) {
+			System.out.println(guest);
+		} else {
+			System.out.println("Guest not found!");
+		}
 	}
 
 	private static void removeGuest(Scanner sc, GuestsList list) {

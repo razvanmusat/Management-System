@@ -13,15 +13,15 @@ class Guest {
 		if (word == null || word.isEmpty()) {
 			return word;
 		}
-	//	word = word.trim();
+		word = word.trim();
 		return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
 	}
 
-	public Guest(String firstName, String lastName, String email, String phoneNumber) {
+	public Guest(String lastName, String firstName, String email, String phoneNumber) {
 		this.lastName = formatName(lastName);
 		this.firstName = formatName(firstName);
-		this.email = email.toLowerCase();
-		this.phoneNumber = phoneNumber;
+		this.email = email.toLowerCase().trim();
+		this.phoneNumber = phoneNumber.trim();
 	}
 
 	public String getLastName() {
@@ -81,6 +81,6 @@ class Guest {
 	}
 
 	public String fullName() {
-		return "[" + firstName + " " + lastName + "]";
+		return "[" + lastName + " " + firstName + "]";
 	}
 }
