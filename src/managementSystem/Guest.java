@@ -18,8 +18,8 @@ class Guest {
 	}
 
 	public Guest(String lastName, String firstName, String email, String phoneNumber) {
-		this.lastName = formatName(lastName);
-		this.firstName = formatName(firstName);
+		this.lastName = formatName(lastName).trim();
+		this.firstName = formatName(firstName).trim();
 		this.email = email.toLowerCase().trim();
 		this.phoneNumber = phoneNumber.trim();
 	}
@@ -29,7 +29,7 @@ class Guest {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = formatName(lastName).trim();
 	}
 
 	public String getFirstName() {
@@ -37,7 +37,7 @@ class Guest {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = formatName(firstName).trim();
 	}
 
 	public String getEmail() {
@@ -45,7 +45,7 @@ class Guest {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase().trim();
 	}
 
 	public String getPhoneNumber() {
@@ -53,7 +53,7 @@ class Guest {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber.trim();
 	}
 
 	@Override
@@ -77,7 +77,7 @@ class Guest {
 
 	@Override
 	public String toString() {
-		return "Nume: " + firstName + " " + lastName + ", Email: " + email + ", Telefon: " + phoneNumber;
+		return "Nume: " + lastName + " " + firstName + ", Email: " + email + ", Telefon: " + phoneNumber;
 	}
 
 	public String fullName() {

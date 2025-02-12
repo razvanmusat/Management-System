@@ -13,6 +13,22 @@ class GuestsList {
 		this.guestsCapacity = guestsCapacity;
 	}
 
+	public ArrayList<Guest> getGuestsList() {
+		return guestsList;
+	}
+
+	public int getGuestsCapacity() {
+		return guestsCapacity;
+	}
+
+	public int getIndexOf(Guest guest) {
+		return guestsList.indexOf(guest);
+	}
+	
+	public int getGuestsListSize() {
+		return guestsList.size();
+	}
+
 	public int add(Guest g) {
 		if (isOnTheListAlready(g)) {
 			return -1;
@@ -69,20 +85,7 @@ class GuestsList {
 		return null;
 	}
 
-	public boolean remove(String firstName, String lastName) {
-		Guest guestToDelete = search(firstName, lastName);
-		if (guestToDelete == null) {
-			return false;
-		}
-		return guestsList.remove(guestToDelete);
-	}
-
-	public boolean remove(int opt, String match) {
-		Guest guestToDelete = search(opt, match);
-		if (guestToDelete == null) {
-			return false;
-		}
-
+	public boolean remove(Guest guestToDelete) {
 		return guestsList.remove(guestToDelete);
 	}
 
@@ -97,7 +100,6 @@ class GuestsList {
 		}
 	}
 
-	// Show the people on the waiting list.
 	public void showWaitingList() {
 		if (guestsList.size() <= guestsCapacity) {
 			System.out.println("Waiting List is empty.");
