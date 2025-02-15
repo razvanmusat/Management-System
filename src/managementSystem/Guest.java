@@ -28,7 +28,7 @@ class Guest {
 		return lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public void setLastName(String lastName) {		
 		this.lastName = formatName(lastName).trim();
 	}
 
@@ -81,6 +81,6 @@ class Guest {
 	}
 
 	public String fullName() {
-		return "[" + lastName + " " + firstName + "]";
+		return lastName + " " + firstName;
 	}
 }

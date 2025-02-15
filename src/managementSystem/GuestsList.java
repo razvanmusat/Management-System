@@ -24,7 +24,7 @@ class GuestsList {
 	public int getIndexOf(Guest guest) {
 		return guestsList.indexOf(guest);
 	}
-	
+
 	public int getGuestsListSize() {
 		return guestsList.size();
 	}
@@ -85,17 +85,17 @@ class GuestsList {
 		return null;
 	}
 
-	public boolean remove(Guest guestToDelete) {
-		return guestsList.remove(guestToDelete);
+	public boolean remove(Guest guest) {
+		return guestsList.remove(guest);
 	}
 
 	public void showGuestsList() {
 		if (guestsList.isEmpty()) {
 			System.out.println("Guest List is empty.");
 		}
-		int guestsIndex = Math.min(guestsCapacity, guestsList.size());
+		int numberOfConfirmedGuests = Math.min(guestsCapacity, guestsList.size());
 
-		for (int i = 0; i < guestsIndex; i++) {
+		for (int i = 0; i < numberOfConfirmedGuests; i++) {
 			System.out.println(guestsList.get(i));
 		}
 	}

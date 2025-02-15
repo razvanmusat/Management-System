@@ -23,6 +23,30 @@ public class Main {
 		System.out.println("quit         - Inchide aplicatia");
 	}
 
+	private static boolean validEmail(String email) {
+		if (email.length() < 6) {
+			return false;
+		}
+		if (!email.contains(String.valueOf('@'))) {
+			return false;
+		}
+		if (!email.contains(String.valueOf('.'))) {
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean validPhoneNumber(String phoneNumber) {
+		phoneNumber = phoneNumber.trim();
+		if (phoneNumber.length() != 10) {
+			return false;
+		}
+		if (!phoneNumber.matches("[0-9]+")) {
+			return false;
+		}
+		return true;
+	}
+
 	private static void addNewGuest(Scanner sc, GuestsList list) {
 		System.out.println("Insert last name: ");
 		String lastName = sc.nextLine();
@@ -30,9 +54,16 @@ public class Main {
 		String firstName = sc.nextLine();
 		System.out.println("Insert email: ");
 		String email = sc.nextLine();
+		while (!validEmail(email)) {
+			System.err.println("The email address you provided is invalid. Please try again.");
+			email = sc.nextLine();
+		}
 		System.out.println("Insert phone number: ");
 		String phoneNumber = sc.nextLine();
-
+		while (!validPhoneNumber(phoneNumber)) {
+			System.err.println("The phone number you provided is invalid. Please try again.");
+			phoneNumber = sc.nextLine();
+		}
 		Guest guest = new Guest(lastName, firstName, email, phoneNumber);
 		int addResult = list.add(guest);
 
@@ -42,8 +73,8 @@ public class Main {
 			System.out.println("Congratulations " + guest.fullName()
 					+ "! Your spot at the event is confirmed. We look forward to your presence.");
 		} else {
-			System.out.println(guest.fullName() + " You've successfully joined the waiting list and your number is "
-					+ addResult + " . We'll notify you if a spot becomes available.");
+			System.out.println(guest.fullName() + ", you're number " + addResult
+					+ " on the waiting list. We'll notify you when a spot opens up.");
 		}
 	}
 
@@ -55,7 +86,7 @@ public class Main {
 		sc.nextLine();
 
 		while (option != 1 && option != 2 && option != 3) {
-			System.out.println("Invalid option. Try again!");			
+			System.out.println("Invalid option. Try again!");
 			option = sc.nextInt();
 			sc.nextLine();
 		}
@@ -72,11 +103,19 @@ public class Main {
 		case 2:
 			System.out.println("Search by email: ");
 			String email = sc.nextLine();
+			while (!validEmail(email)) {
+				System.err.println("The email address you provided is invalid. Please try again.");
+				email = sc.nextLine();
+			}
 			guest = list.search(option, email.toLowerCase().trim());
 			break;
 		case 3:
 			System.out.println("Search by phone number: ");
 			String phoneNumber = sc.nextLine();
+			while (!validPhoneNumber(phoneNumber)) {
+				System.err.println("The phone number you provided is invalid. Please try again.");
+				phoneNumber = sc.nextLine();
+			}
 			guest = list.search(option, phoneNumber.trim());
 			break;
 		default:
@@ -96,20 +135,21 @@ public class Main {
 	}
 
 	private static void removeGuest(Scanner sc, GuestsList list) {
-		Guest guestToDelete = guestSearch(sc, list);
-		int index = list.getIndexOf(guestToDelete);		
-		boolean removed = list.remove(guestToDelete);
+		Guest guest = guestSearch(sc, list);
+		int index = list.getIndexOf(guest);
+		int listSize = list.getGuestsList().size();
+		boolean removed = list.remove(guest);		
 
 		if (removed) {
-			if (list.getGuestsList().size() == 1) {
-				System.out.println(guestToDelete.fullName() + " was successfully removed.");
+			if (listSize == 1) {
+				System.out.println(guest.fullName() + " was successfully removed.");
 				System.out.println("The guest list is now empty.");
 			} else if (index < list.getGuestsCapacity()) {
-				System.out.println(guestToDelete.fullName() + " was successfully removed.");
+				System.out.println(guest.fullName() + " was successfully removed.");
 				System.out.println(list.getGuestsList().get(list.getGuestsCapacity() - 1).fullName()
 						+ " Congratulations! Your spot at the event is confirmed. We look forward to your presence.");
 			} else {
-				System.out.println(guestToDelete.fullName() + " was successfully removed.");
+				System.out.println(guest.fullName() + " was successfully removed.");
 			}
 		} else {
 			System.out.println("Guest not found for removal.");
@@ -118,14 +158,42 @@ public class Main {
 
 	private static void updateGuest(Scanner sc, GuestsList list) {
 		Guest guest = guestSearch(sc, list);
-		System.out.println("Update last name:");
-		guest.setLastName(sc.nextLine());
-		System.out.println("Update first name:");
-		guest.setFirstName(sc.nextLine());
-		System.out.println("Update mail:");
-		guest.setEmail(sc.nextLine());
-		System.out.println("Update phone number:");
-		guest.setPhoneNumber(sc.nextLine());
+		if (guest == null) {
+			System.out.println("Guest not found!");
+			return;
+		}
+		System.out.println(
+				"Insert option 1 for update name\nInsert option 2 for update mail\nInsert option 3 for update phone number");
+		int option = sc.nextInt();
+		sc.nextLine();
+		if (option == 1) {
+			System.out.println("Update last name:");
+			guest.setLastName(sc.nextLine());
+			System.out.println("Update first name:");
+			guest.setFirstName(sc.nextLine());
+		} else if (option == 2) {
+			System.out.println("Update mail:");
+			String email = sc.nextLine();
+			while (!validEmail(email)) {
+				System.err.println("The email address you provided is invalid. Please try again.");
+				email = sc.nextLine();
+			}
+			guest.setEmail(email);
+		} else if (option == 3) {
+			System.out.println("Update phone number:");
+			String phoneNumber = sc.nextLine();
+			while (!validPhoneNumber(phoneNumber)) {
+				System.err.println("The phone number you provided is invalid. Please try again.");
+				phoneNumber = sc.nextLine();
+			}
+			guest.setPhoneNumber(phoneNumber);
+		} else {
+			while (option != 1 || option != 2 || option != 3) {
+				System.out.println("Wrong option, try again.");
+				option = sc.nextInt();
+			}
+		}
+		System.out.println("Guest updated.");
 	}
 
 	private static void searchList(Scanner sc, GuestsList list) {
